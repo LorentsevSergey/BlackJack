@@ -1,4 +1,60 @@
 <RCC>
-    <qresource prefix="main_window">
+    <qresource prefix="/main">
+        <file>img/table.jpg</file>
+        <file>img/gangsta_cards/back.png</file>
+        <file>img/gangsta_cards/2_of_club.png</file>
+        <file>img/gangsta_cards/2_of_diamond.png</file>
+        <file>img/gangsta_cards/2_of_heart.png</file>
+        <file>img/gangsta_cards/2_of_spade.png</file>
+        <file>img/gangsta_cards/3_of_club.png</file>
+        <file>img/gangsta_cards/3_of_diamond.png</file>
+        <file>img/gangsta_cards/3_of_heart.png</file>
+        <file>img/gangsta_cards/3_of_spade.png</file>
+        <file>img/gangsta_cards/4_of_club.png</file>
+        <file>img/gangsta_cards/4_of_diamond.png</file>
+        <file>img/gangsta_cards/4_of_heart.png</file>
+        <file>img/gangsta_cards/4_of_spade.png</file>
+        <file>img/gangsta_cards/5_of_club.png</file>
+        <file>img/gangsta_cards/5_of_diamond.png</file>
+        <file>img/gangsta_cards/5_of_heart.png</file>
+        <file>img/gangsta_cards/5_of_spade.png</file>
+        <file>img/gangsta_cards/6_of_club.png</file>
+        <file>img/gangsta_cards/6_of_diamond.png</file>
+        <file>img/gangsta_cards/6_of_heart.png</file>
+        <file>img/gangsta_cards/6_of_spade.png</file>
+        <file>img/gangsta_cards/7_of_club.png</file>
+        <file>img/gangsta_cards/7_of_diamond.png</file>
+        <file>img/gangsta_cards/7_of_heart.png</file>
+        <file>img/gangsta_cards/7_of_spade.png</file>
+        <file>img/gangsta_cards/8_of_club.png</file>
+        <file>img/gangsta_cards/8_of_diamond.png</file>
+        <file>img/gangsta_cards/8_of_heart.png</file>
+        <file>img/gangsta_cards/8_of_spade.png</file>
+        <file>img/gangsta_cards/9_of_club.png</file>
+        <file>img/gangsta_cards/9_of_diamond.png</file>
+        <file>img/gangsta_cards/9_of_heart.png</file>
+        <file>img/gangsta_cards/9_of_spade.png</file>
+        <file>img/gangsta_cards/10_of_club.png</file>
+        <file>img/gangsta_cards/10_of_diamond.png</file>
+        <file>img/gangsta_cards/10_of_heart.png</file>
+        <file>img/gangsta_cards/10_of_spade.png</file>
+        <file>img/gangsta_cards/ace_of_club.png</file>
+        <file>img/gangsta_cards/ace_of_diamond.png</file>
+        <file>img/gangsta_cards/ace_of_heart.png</file>
+        <file>img/gangsta_cards/ace_of_spade.png</file>
+        <file>img/gangsta_cards/jack_of_club.png</file>
+        <file>img/gangsta_cards/jack_of_diamond.png</file>
+        <file>img/gangsta_cards/jack_of_heart.png</file>
+        <file>img/gangsta_cards/jack_of_spade.png</file>
+        <file>img/gangsta_cards/joker_black.png</file>
+        <file>img/gangsta_cards/joker_red.png</file>
+        <file>img/gangsta_cards/king_of_club.png</file>
+        <file>img/gangsta_cards/king_of_diamond.png</file>
+        <file>img/gangsta_cards/king_of_heart.png</file>
+        <file>img/gangsta_cards/king_of_spade.png</file>
+        <file>img/gangsta_cards/queen_of_club.png</file>
+        <file>img/gangsta_cards/queen_of_diamond.png</file>
+        <file>img/gangsta_cards/queen_of_heart.png</file>
+        <file>img/gangsta_cards/queen_of_spade.png</file>
     </qresource>
 </RCC>
