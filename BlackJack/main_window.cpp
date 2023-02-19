@@ -15,5 +15,12 @@ main_window::~main_window()
 void main_window::on_refresh_button_clicked()
 {
     //ui.dealer_card_1->setPixmap(deck[0]);
+    ui.dealer_card_1->setPixmap(gangsta_cards.take_card());
     ui.dealer_card_2->setPixmap(gangsta_cards.take_card());
+
+    ui.player1_card_1->setPixmap(gangsta_cards.take_card());
+    ui.player1_card_2->setPixmap(gangsta_cards.take_card());
+
+    ui.player2_card_1->setPixmap(gangsta_cards.take_card());
+    ui.player2_card_2->setPixmap(gangsta_cards.take_card());
 }
