@@ -72,7 +72,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="refresh_button">
+   <widget class="QPushButton" name="restart_button">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -92,7 +92,7 @@
 color: rgb(200, 110, 110)</string>
     </property>
     <property name="text">
-     <string>Refresh</string>
+     <string>Restart</string>
     </property>
    </widget>
    <widget class="QLabel" name="table">
@@ -491,7 +491,7 @@ color: rgb(85, 170, 255)</string>
    </widget>
    <zorder>table</zorder>
    <zorder>dealer_card_1</zorder>
-   <zorder>refresh_button</zorder>
+   <zorder>restart_button</zorder>
    <zorder>dealer_card_2</zorder>
    <zorder>hit_button</zorder>
    <zorder>stand_button</zorder>

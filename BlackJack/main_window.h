@@ -13,7 +13,9 @@ public:
     ~main_window();
 
 private slots:
-    void on_refresh_button_clicked();
+    void on_hit_button_clicked();
+    void on_stand_button_clicked();
+    void on_restart_button_clicked();
 
 private:
     Ui::main_windowClass ui;
