@@ -1,16 +1,18 @@
+#pragma once
 #include "main_window.h"
 
-main_window::main_window(QWidget *parent)
+main_window::main_window(Game* game, QWidget *parent)
     : QMainWindow(parent),
-    gangsta_cards("gangsta_cards")
+    _game(game)
 {
-    ui.setupUi(this);
-    //ui.refresh_button->clicked();
-    
+    _ui.setupUi(this);
+    _game->Start();
 }
 
 main_window::~main_window()
-{}
+{
+    delete _game;
+}
 
 void main_window::on_hit_button_clicked()
 {
@@ -23,16 +25,15 @@ void main_window::on_stand_button_clicked()
 
 void main_window::on_restart_button_clicked()
 {
-    ui.dealer_card_1->setPixmap(gangsta_cards.take_card());
-    // make a variable card from constant 
-    Card* dealer_card_2 = new Card (gangsta_cards.take_card());
-    // and turn it over
-    dealer_card_2->turn_over();
-    ui.dealer_card_2->setPixmap(*dealer_card_2);
+    _ui.dealer_card_1->setPixmap(*_game->GetPlayingDeck().TakeCard());
+    Card* dealer_card_2 (_game->GetPlayingDeck().TakeCard());
+    // turn over the card
+    dealer_card_2->TurnOver();
+    _ui.dealer_card_2->setPixmap(*dealer_card_2);
 
-    ui.player1_card_1->setPixmap(gangsta_cards.take_card());
-    ui.player1_card_2->setPixmap(gangsta_cards.take_card());
+    _ui.player1_card_1->setPixmap(*_game->GetPlayingDeck().TakeCard());
+    _ui.player1_card_2->setPixmap(*_game->GetPlayingDeck().TakeCard());
 
-    ui.player2_card_1->setPixmap(gangsta_cards.take_card());
-    ui.player2_card_2->setPixmap(gangsta_cards.take_card());
+    _ui.player2_card_1->setPixmap(*_game->GetPlayingDeck().TakeCard());
+    _ui.player2_card_2->setPixmap(*_game->GetPlayingDeck().TakeCard());
 }

@@ -2,14 +2,14 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_interface.h"
 #include <string>
-#include "Deck.h"
+#include "Game.h"
 
 class main_window : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    main_window(QWidget *parent = nullptr);
+    main_window(Game* game = new Game(), QWidget* parent = nullptr);
     ~main_window();
 
 private slots:
@@ -18,7 +18,6 @@ private slots:
     void on_restart_button_clicked();
 
 private:
-    Ui::main_windowClass ui;
-
-    Deck gangsta_cards;
+    Ui::main_windowClass _ui;
+    Game* _game;
 };

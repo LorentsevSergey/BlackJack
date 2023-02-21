@@ -1,6 +1,9 @@
+#pragma once
 #include "main_window.h"
 #include <QtWidgets/QApplication>
-#include "Deck.h"
+
+// global container for keeping all decks
+std::vector<Deck> all_decks;
 
 int main(int argc, char *argv[])
 {

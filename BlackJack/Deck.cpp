@@ -4,13 +4,18 @@
 
 Deck::Deck(const std::string deck_path)
 {
+    assert(deck_path.size() && "Path name with the card images not found.");
+
     std::string img_url = "img/" + deck_path + "/";
 
     //create an image of back side
     std::shared_ptr<QPixmap> back_img( new QPixmap((img_url + "back.png").c_str()) );
 
+
     //create and put the cards into the deck
-    
+
+    //_cards.resize(54);
+
     //jokers (not used in blackjack but could be used in other games in the future)
     //_cards.push_back({ img_url + "joker_red.png", back_img});
     //_cards.push_back({ img_url + "joker_black.png", back_img});
@@ -76,14 +81,13 @@ Deck::Deck(const std::string deck_path)
     _cards.push_back({ img_url + "ace_of_spade.png", back_img, Card::Suit::spade, 11 });
 }
 
-const Card Deck::take_card()
+std::list<Card*> Deck::GetCards()
 {
-    const Card card (*_cards.cbegin());
-    _cards.pop_front();
-    return card;
+    std::list<Card*> card_list;
+    
+    for (size_t i = 0; i < _cards.size(); ++i)
+        card_list.push_back(&_cards[i]);
+    return card_list;
 }
 
-void Deck::put_card(const Card card)
-{
-    _cards.push_back(card);
-}
+

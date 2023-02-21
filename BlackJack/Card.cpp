@@ -12,12 +12,12 @@ Card::Card(const std::string& front_img_url,
 	_cost(cost)
 {};
 
-Card::Suit Card::suit() const
+Card::Suit Card::MySuit() const
 {
 	return _suit;
 }
 
-int Card::cost() const
+int Card::Cost() const
 {
 	return _cost;
 }
@@ -27,7 +27,7 @@ Card::operator QPixmap() const
 	return is_front_side ? _front_img : *_p_back_img;
 }
 
-void Card::turn_over()
+void Card::TurnOver()
 {
 	is_front_side = !is_front_side;
 }

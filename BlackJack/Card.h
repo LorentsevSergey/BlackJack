@@ -28,11 +28,11 @@ public:
 		const Card::Suit& suit = nosuit,
 		const int cost = 0);
 
-	Card::Suit suit() const;
-	int cost() const;
+	Card::Suit MySuit() const;
+	int Cost() const;
 
 	operator QPixmap() const;
 
-	void turn_over();
+	void TurnOver();
 };
 
