@@ -44,7 +44,7 @@ void Game::Start()
 	// show cards in UI
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
-	//_window->StatusBarMsg();
+
 	static_cast<Dealer*>(_users[0])->TurnOverShirtCard();
 }
 

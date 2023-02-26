@@ -6,6 +6,7 @@ main_window::main_window(Game* game, QWidget *parent)
     _game(game)
 {
     _ui.setupUi(this);
+    EnableTurnButtons();
 
     // group the player labels for the future iterating
     _p_cards[0] = _ui.player_card_1;
@@ -63,12 +64,28 @@ void main_window::on_hit_button_clicked()
 
 void main_window::on_stand_button_clicked()
 {
+    DisableTurnButtons();
     _game->Stand();
 }
 
 void main_window::on_restart_button_clicked()
 {
+    EnableTurnButtons();
     _game->End();
     ClrCardLabels();
     _game->Start();
+}
+
+void main_window::EnableTurnButtons()
+{
+    _ui.restart_button->setDisabled(true);
+    _ui.hit_button->setEnabled(true);
+    _ui.stand_button->setEnabled(true);
+}
+
+void main_window::DisableTurnButtons()
+{
+    _ui.stand_button->setDisabled(true);
+    _ui.hit_button->setDisabled(true);
+    _ui.restart_button->setEnabled(true);
 }
