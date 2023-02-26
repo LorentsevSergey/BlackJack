@@ -84,8 +84,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dealer.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayingDeck.cpp" />
     <ClCompile Include="User.cpp" />
     <QtRcc Include="resources.qrc" />
     <QtUic Include="interface.ui" />
@@ -101,9 +101,10 @@
     <ClInclude Include="Dealer.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayingDeck.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="View.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

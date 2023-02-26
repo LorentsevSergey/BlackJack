@@ -7,8 +7,10 @@ std::vector<Deck> all_decks;
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
     QApplication a(argc, argv);
-    main_window w;
+    Game g(500);
+    main_window w(&g);
     w.show();
     return a.exec();
 }

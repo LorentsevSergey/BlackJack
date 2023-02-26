@@ -269,10 +269,10 @@ color: rgb(85, 170, 255)</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="player1_card_1">
+   <widget class="QLabel" name="player_card_1">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>210</x>
       <y>310</y>
       <width>135</width>
       <height>190</height>
@@ -291,10 +291,10 @@ color: rgb(85, 170, 255)</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="player1_card_2">
+   <widget class="QLabel" name="player_card_2">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>240</x>
       <y>315</y>
       <width>135</width>
       <height>190</height>
@@ -313,10 +313,10 @@ color: rgb(85, 170, 255)</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="player1_card_3">
+   <widget class="QLabel" name="player_card_3">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>270</x>
       <y>320</y>
       <width>135</width>
       <height>190</height>
@@ -335,10 +335,10 @@ color: rgb(85, 170, 255)</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="player1_card_4">
+   <widget class="QLabel" name="player_card_4">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>300</x>
       <y>325</y>
       <width>135</width>
       <height>190</height>
@@ -357,120 +357,10 @@ color: rgb(85, 170, 255)</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="player1_card_5">
+   <widget class="QLabel" name="player_card_5">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>330</y>
-      <width>135</width>
-      <height>190</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="player2_card_1">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>310</y>
-      <width>135</width>
-      <height>190</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="player2_card_2">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>315</y>
-      <width>135</width>
-      <height>190</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="player2_card_3">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>320</y>
-      <width>135</width>
-      <height>190</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="player2_card_4">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>325</y>
-      <width>135</width>
-      <height>190</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="player2_card_5">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
+      <x>330</x>
       <y>330</y>
       <width>135</width>
       <height>190</height>
@@ -498,16 +388,11 @@ color: rgb(85, 170, 255)</string>
    <zorder>dealer_card_3</zorder>
    <zorder>dealer_card_4</zorder>
    <zorder>dealer_card_5</zorder>
-   <zorder>player1_card_1</zorder>
-   <zorder>player1_card_2</zorder>
-   <zorder>player1_card_3</zorder>
-   <zorder>player1_card_4</zorder>
-   <zorder>player1_card_5</zorder>
-   <zorder>player2_card_1</zorder>
-   <zorder>player2_card_2</zorder>
-   <zorder>player2_card_3</zorder>
-   <zorder>player2_card_4</zorder>
-   <zorder>player2_card_5</zorder>
+   <zorder>player_card_1</zorder>
+   <zorder>player_card_2</zorder>
+   <zorder>player_card_3</zorder>
+   <zorder>player_card_4</zorder>
+   <zorder>player_card_5</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

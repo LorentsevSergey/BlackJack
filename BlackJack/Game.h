@@ -1,21 +1,30 @@
 #pragma once
-#include <string>
-#include "PlayingDeck.h"
+#include "Global.h"
+#include "Deck.h"
 #include "Dealer.h"
 #include "Player.h"
+#include "main_window.h"
+
+// global container for keeping all decks
+extern std::vector<Deck> all_decks;
+class main_window;
 
 class Game
 {
+	main_window* _window = nullptr;
 	bool _continue = false;
-
-	PlayingDeck* _playing_deck;
+	std::vector<User*> _users;
 
 public:
-	Game();
-	~Game();
+	Game(unsigned playerCash);
+	virtual ~Game();
 
-	PlayingDeck& GetPlayingDeck();
+	void SetupUi(main_window* window);
 	void Start();
 	void End();
+
+	void Hit();
+	void Stand();
+	void DealersTurn();
 };
 

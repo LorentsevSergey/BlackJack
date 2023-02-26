@@ -1,15 +1,13 @@
 #pragma once
-#include <list>
+#include "Global.h"
 #include "Card.h"
 
 class Deck
 {
-public:
 	std::vector<Card> _cards;
-
+public:
 	Deck(const std::string);
-
-	std::list<Card*> GetCards();
+	const Card RandCard() const;
 };
 
 

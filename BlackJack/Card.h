@@ -1,38 +1,36 @@
 #pragma once
-#include <qpixmap.h>
+#include "Global.h"
 
 class Card
 {
-public: enum Suit
-{
-	spade = 0,
-	heart = 1,
-	diamond = 2,
-	club = 3,
-	nosuit = 4
-};
-private:
-	const QPixmap _front_img;
-	std::shared_ptr<QPixmap> _p_back_img;
+	std::string _front_img_url;
+	std::shared_ptr<std::string> _p_back_img_url;
 	const Suit _suit;
-	const int _cost;
-	bool is_front_side{ true };
+	const Value _value;
+	bool _is_front_side{ true };
 
 public:
-	// img_url - the adress of image in resources.qrc
-	// back_img - shared pointer to the back image (one image for all deck)
-	// suit - spade = 0, heart = 1, diamond = 2, club = 3, nosuit = 4
-	// cost - score for the card
-	Card(const std::string& front_img_url,
-		std::shared_ptr<QPixmap>& back_img,
-		const Card::Suit& suit = nosuit,
-		const int cost = 0);
+	// string: url to the front image in recource file
+	// shared_ptr<string>: pointer to the back image url (one image for all cards in the deck)
+	// Suit: spade = 0, heart = 1, diamond = 2, club = 3, noSuit = 4
+	// Value: 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace, joker, noValue
+	Card(std::string,
+		std::shared_ptr<std::string> = nullptr,
+		const Suit = noSuit,
+		Value = noValue);
 
-	Card::Suit MySuit() const;
-	int Cost() const;
+	//Card(const std::string& front_img_url,
+	//	std::shared_ptr<QPixmap>& back_img,
+	//	const Card::Suit& suit = nosuit,
+	//	const int cost = 0);
+	//
+	//const Suit& MySuit() const;
+	//const Value& Val() const;
 
-	operator QPixmap() const;
+	operator Suit() const;
+	operator Value() const;
 
+	const char* ImgUrl() const;
 	void TurnOver();
 };
 
