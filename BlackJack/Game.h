@@ -5,8 +5,6 @@
 #include "Player.h"
 #include "main_window.h"
 
-// global container for keeping all decks
-extern std::vector<Deck> all_decks;
 class main_window;
 
 class Game
@@ -14,8 +12,10 @@ class Game
 	main_window* _window = nullptr;
 	bool _continue = false;
 	std::vector<User*> _users;
+	Deck _deck;
 
 public:
+	// playerCash should be in range [Player::minCash ... Player::maxCash]
 	Game(unsigned playerCash);
 	virtual ~Game();
 

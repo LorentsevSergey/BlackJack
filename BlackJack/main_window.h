@@ -1,7 +1,6 @@
 #pragma once
 #include <QtWidgets/QMainWindow>
 #include "ui_interface.h"
-#include "Global.h"
 #include "Game.h"
 
 const int maxCards{ 5 };

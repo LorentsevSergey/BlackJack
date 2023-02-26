@@ -47,7 +47,7 @@ const char* Card::ImgUrl() const
 {
 #ifdef DEBUG
 	assert(_front_img_url.size() && "Empty adress of card image.");
-#endif // DEBUG
+#endif
 
 	return (_is_front_side ? _front_img_url : *_p_back_img_url).c_str();
 }

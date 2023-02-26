@@ -1,19 +1,13 @@
 #pragma once
 #include "Game.h"
 
-Game::Game(unsigned playerCash)
-{
-	// create a gangsta_cards deck and save it in global vector
-	all_decks.push_back({ "gangsta_cards" });
-
-	// create a dealer
-	User* dealer = new Dealer();
-	_users.push_back(dealer);
-
-	// create a player
-	User* player = new Player(playerCash > 0 ? playerCash : 0);
-	_users.push_back(player);
-}
+Game::Game(unsigned playerCash) :
+	_deck("gangsta_cards"),
+	_users{
+		new Dealer(),// create a dealer
+		new Player(playerCash)// create a player
+	}
+{}
 
 Game::~Game()
 {
@@ -38,14 +32,14 @@ void Game::Start()
 	_continue = true;
 
 	// dealer 2 cards
-	_users[0]->AddCard(all_decks[0].RandCard());
-	Card d_shirt_card(all_decks[0].RandCard());
+	_users[0]->AddCard(_deck.RandCard());
+	Card d_shirt_card(_deck.RandCard());
 	d_shirt_card.TurnOver();
 	_users[0]->AddCard(d_shirt_card);
 
 	// player 2 cards
-	_users[1]->AddCard(all_decks[0].RandCard());
-	_users[1]->AddCard(all_decks[0].RandCard());
+	_users[1]->AddCard(_deck.RandCard());
+	_users[1]->AddCard(_deck.RandCard());
 
 	// show cards in UI
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
@@ -72,14 +66,14 @@ void Game::Hit()
 	assert(_window && "_window should be initialised by SetupUi().");
 #endif
 
-	Card randCard = all_decks[0].RandCard();
+	Card randCard = _deck.RandCard();
 	_users[1]->AddCard(randCard);
 	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
 }
 
 void Game::Stand()
 {
-	// teurn off a Hit button
+	// turn off a Hit button
 	_window;
 
 	// show all dealer cards in UI (w/ shirt card)
@@ -95,7 +89,7 @@ void Game::DealersTurn()
 	assert(_window && "_window should be initialised by SetupUi().");
 #endif
 
-	Card randCard = all_decks[0].RandCard();
+	Card randCard = _deck.RandCard();
 	_users[0]->AddCard(randCard);
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 }

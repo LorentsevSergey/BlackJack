@@ -3,5 +3,6 @@
 
 void Dealer::TurnOverShirtCard()
 {
-	_my_cards[1].TurnOver();
+	if(_my_cards.size() >= 2)
+		_my_cards[1].TurnOver();
 }
