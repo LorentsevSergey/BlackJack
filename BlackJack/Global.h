@@ -3,8 +3,11 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #define DEBUG
+#define CARD_ID_START (2)
+#define CARD_ID_END (15)
 
 enum Suit
 {

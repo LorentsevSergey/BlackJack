@@ -44,7 +44,7 @@ void Game::Start()
 	// show cards in UI
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
-
+	//_window->StatusBarMsg();
 	static_cast<Dealer*>(_users[0])->TurnOverShirtCard();
 }
 
@@ -55,7 +55,12 @@ void Game::End()
 #endif
 	// turn on a Hit button
 	_window;
-
+	for (User* u : _users)
+	{
+		std::vector<Card> userCards(u->GetCards());
+		for(Card c : userCards)	_deck.AddCard(c);
+		u->DelCards();
+	}
 	_continue = false;
 	for (User* u : _users) u->DelCards();
 }

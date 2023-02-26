@@ -5,8 +5,8 @@ class Card
 {
 	std::string _front_img_url;
 	std::shared_ptr<std::string> _p_back_img_url;
-	const Suit _suit;
-	const Value _value;
+	Suit _suit;
+	Value _value;
 	bool _is_front_side{ true };
 
 public:
@@ -32,5 +32,8 @@ public:
 
 	const char* ImgUrl() const;
 	void TurnOver();
+
+	bool operator==(const Card& other) const;
+	Card& operator=(const Card& copy);
 };
 

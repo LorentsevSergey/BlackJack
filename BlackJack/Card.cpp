@@ -56,3 +56,22 @@ void Card::TurnOver()
 {
 	_is_front_side = !_is_front_side;
 }
+
+bool Card::operator==(const Card& other) const
+{
+	return _front_img_url == other._front_img_url
+		&& _p_back_img_url == other._p_back_img_url
+		&& _suit == other._suit
+		&& _value == other._value
+		&& _is_front_side == other._is_front_side;
+}
+
+Card& Card::operator=(const Card& copy)
+{
+	_front_img_url = copy._front_img_url;
+	_p_back_img_url = copy._p_back_img_url;
+	_suit = copy._suit;
+	_value = copy._value;
+	_is_front_side = copy._is_front_side;
+	return *this;
+}
