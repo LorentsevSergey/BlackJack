@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 
+#pragma region Game/~Game/Setup
 Game::Game(unsigned playerCash) :
 	_deck("gangsta_cards"),
 	_users{
@@ -23,7 +24,9 @@ void Game::SetupUi(main_window* window)
 	_window = window;
 	Start();
 }
+#pragma endregion
 
+#pragma region Start/End
 void Game::Start()
 {
 #ifdef DEBUG
@@ -46,6 +49,8 @@ void Game::Start()
 	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
 
 	static_cast<Dealer*>(_users[0])->TurnOverShirtCard();
+
+	CheckScore(_users[1]->GetCards());
 }
 
 void Game::End()
@@ -53,8 +58,6 @@ void Game::End()
 #ifdef DEBUG
 	assert(_continue == true && _window && "Game should be runned, _window should be initialised by SetupUi().");
 #endif
-	// turn on a Hit button
-	_window;
 	for (User* u : _users)
 	{
 		std::vector<Card> userCards(u->GetCards());
@@ -64,31 +67,33 @@ void Game::End()
 	_continue = false;
 	for (User* u : _users) u->DelCards();
 }
+#pragma endregion
 
+#pragma region Game logic
 void Game::Hit()
 {
 #ifdef DEBUG
 	assert(_window && "_window should be initialised by SetupUi().");
 #endif
-
-	Card randCard = _deck.RandCard();
-	_users[1]->AddCard(randCard);
-	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
+	if (_users[1]->GetCards().size() < maxCards)
+	{
+		Card randCard = _deck.RandCard();
+		_users[1]->AddCard(randCard);
+		_window->ShowPlayerCards(_users[1]->GetImgsUrl());
+		CheckScore(_users[1]->GetCards());
+	}
 }
 
 void Game::Stand()
 {
-	// turn off a Hit button
-	_window;
-
-	// show all dealer cards in UI (w/ shirt card)
+	// show all dealer cards in UI (for open shirt-card)
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 
 	while(_users[0]->GetCards().size() < maxCards)
-		DealersTurn();
+		DealerMove();
 }
 
-void Game::DealersTurn()
+void Game::DealerMove()
 {
 #ifdef DEBUG
 	assert(_window && "_window should be initialised by SetupUi().");
@@ -99,3 +104,26 @@ void Game::DealersTurn()
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 }
 
+int Game::CheckScore(std::vector<Card> cards) const
+{
+	int res{ 0 };
+
+	std::sort(cards.begin(), cards.end());
+
+	for (Card c : cards)
+	{
+		if (c >= Value::two && c < Value::ten)
+			res += c.operator Value();
+		else if (c >= Value::ten && c < Value::ace)
+			res += 10;
+		else if (c == Value::ace && res <= 10)
+			res += 11;
+		else if (c == Value::ace && res > 10)
+			res += 1;
+	}
+
+	_window->StatusBarMsg(itos(res).c_str());
+	return res;
+}
+
+#pragma endregion

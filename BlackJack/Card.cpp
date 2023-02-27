@@ -12,26 +12,6 @@ Card::Card(std::string front_img_url,
 	_value(value)
 {}
 
-//Card::Card(const std::string& front_img_url,
-//	std::shared_ptr<QPixmap>& back_img,
-//	const Card::Suit& suit,
-//	const int cost)
-//	:
-//	_front_img(front_img_url.c_str()),
-//	_p_back_img(back_img),
-//	_suit(suit),
-//	_cost(cost)
-//{};
-//
-//const Card::Suit& Card::MySuit() const
-//{
-//	return _suit;
-//}
-//
-//const Card::Value& Card::Val() const
-//{
-//	return _value;
-//}
 
 Card::operator Suit() const
 {
@@ -57,6 +37,18 @@ void Card::TurnOver()
 	_is_front_side = !_is_front_side;
 }
 
+
+#pragma region Operators > < == =
+bool Card::operator>(const Card& other) const
+{
+	return _value > other._value;
+}
+
+bool Card::operator<(const Card& other) const
+{
+	return _value < other._value;
+}
+
 bool Card::operator==(const Card& other) const
 {
 	return _front_img_url == other._front_img_url
@@ -75,3 +67,4 @@ Card& Card::operator=(const Card& copy)
 	_is_front_side = copy._is_front_side;
 	return *this;
 }
+#pragma endregion

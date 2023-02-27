@@ -19,19 +19,14 @@ public:
 		const Suit = noSuit,
 		Value = noValue);
 
-	//Card(const std::string& front_img_url,
-	//	std::shared_ptr<QPixmap>& back_img,
-	//	const Card::Suit& suit = nosuit,
-	//	const int cost = 0);
-	//
-	//const Suit& MySuit() const;
-	//const Value& Val() const;
-
 	operator Suit() const;
 	operator Value() const;
 
 	const char* ImgUrl() const;
 	void TurnOver();
+
+	bool operator>(const Card& other) const;
+	bool operator<(const Card& other) const;
 
 	bool operator==(const Card& other) const;
 	Card& operator=(const Card& copy);

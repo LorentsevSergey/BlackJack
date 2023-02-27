@@ -22,10 +22,9 @@ public:
 
     void ShowDealerCards(std::vector<const char*>);
     void ShowPlayerCards(std::vector<const char*>);
+    void ClrCardLabels();
     void StatusBarMsg(const char*);
     
-    void ClrCardLabels();
-
 private slots:
     void on_hit_button_clicked();
     void on_stand_button_clicked();

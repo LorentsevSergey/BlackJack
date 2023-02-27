@@ -15,7 +15,7 @@ enum Suit
 	heart = 1,
 	diamond = 2,
 	club = 3,
-	noSuit
+	noSuit = 4
 };
 
 enum Value
@@ -33,8 +33,8 @@ enum Value
 	queen = 12,
 	king = 13,
 	ace = 14,
-	joker,
-	noValue
+	joker = 15,
+	noValue = 16
 };
 
 enum UsrType

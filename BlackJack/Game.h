@@ -19,12 +19,14 @@ public:
 	Game(unsigned playerCash);
 	virtual ~Game();
 
-	void SetupUi(main_window* window);
-	void Start();
-	void End();
+	virtual void SetupUi(main_window* window);
+	virtual void Start();
+	virtual void End();
 
-	void Hit();
-	void Stand();
-	void DealersTurn();
+	virtual void Hit();
+	virtual void Stand();
+	virtual void DealerMove();
+
+	virtual int CheckScore(std::vector<Card>) const;
 };
 
