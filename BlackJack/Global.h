@@ -8,6 +8,9 @@
 #define DEBUG
 #define CARD_ID_START (2)
 #define CARD_ID_END (15)
+#define MAX_SCORE (21)
+#define MIN_DEALER_SCORE (17)
+#define MAX_HAND_CARDS (5)
 
 enum Suit
 {

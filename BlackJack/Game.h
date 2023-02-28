@@ -23,10 +23,11 @@ public:
 	virtual void Start();
 	virtual void End();
 
-	virtual void Hit();
+	virtual void PlayerHit();
 	virtual void Stand();
-	virtual void DealerMove();
+	virtual void DealerHit();
 
+	// Calculate the cards score
 	virtual int CheckScore(std::vector<Card>) const;
 };
 

@@ -37,6 +37,7 @@ void Game::Start()
 	// dealer 2 cards
 	_users[0]->AddCard(_deck.RandCard());
 	Card d_shirt_card(_deck.RandCard());
+	// turn over the dealer second card for showing shirt first time
 	d_shirt_card.TurnOver();
 	_users[0]->AddCard(d_shirt_card);
 
@@ -48,9 +49,16 @@ void Game::Start()
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 	_window->ShowPlayerCards(_users[1]->GetImgsUrl());
 
+	// turn over the dealer second card for showing face next time
 	static_cast<Dealer*>(_users[0])->TurnOverShirtCard();
 
-	CheckScore(_users[1]->GetCards());
+	// get player score
+	int PlayerScore = CheckScore(_users[1]->GetCards());
+	// show player score
+	_window->ShowScore(1, itos(PlayerScore).c_str());
+	// clear dealer score
+	_window->ShowScore(0);
+	_window->ShowWinner();
 }
 
 void Game::End()
@@ -66,22 +74,36 @@ void Game::End()
 	}
 	_continue = false;
 	for (User* u : _users) u->DelCards();
+
+	//if() _window->ShowWinner(0);
+	//else if() _window->ShowWinner(1);
 }
 #pragma endregion
 
 #pragma region Game logic
-void Game::Hit()
+void Game::PlayerHit()
 {
 #ifdef DEBUG
 	assert(_window && "_window should be initialised by SetupUi().");
 #endif
-	if (_users[1]->GetCards().size() < maxCards)
+	int score = CheckScore(_users[1]->GetCards());
+
+	if (_users[1]->GetCards().size() < MAX_HAND_CARDS &&
+		score < MAX_SCORE)
 	{
-		Card randCard = _deck.RandCard();
-		_users[1]->AddCard(randCard);
+		_users[1]->AddCard(_deck.RandCard());
 		_window->ShowPlayerCards(_users[1]->GetImgsUrl());
-		CheckScore(_users[1]->GetCards());
+		score = CheckScore(_users[1]->GetCards());
 	}
+
+	// show player score
+	_window->ShowScore(1, itos(score).c_str());
+
+	/*if (score > MAX_SCORE)
+	{
+		_window->StatusBarMsg("You loose");
+		End();
+	}*/
 }
 
 void Game::Stand()
@@ -89,18 +111,30 @@ void Game::Stand()
 	// show all dealer cards in UI (for open shirt-card)
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 
-	while(_users[0]->GetCards().size() < maxCards)
-		DealerMove();
+	int score = CheckScore(_users[0]->GetCards());
+	// show dealer score
+	_window->ShowScore(0, itos(score).c_str());
+
+	// dealer move
+	while (_users[0]->GetCards().size() < MAX_HAND_CARDS &&
+		score < MIN_DEALER_SCORE)
+	{
+		DealerHit();
+
+		// calculate new score after DealerHit()
+		score = CheckScore(_users[0]->GetCards());
+
+		// show dealer score
+		_window->ShowScore(0, itos(score).c_str());
+	}
 }
 
-void Game::DealerMove()
+void Game::DealerHit()
 {
 #ifdef DEBUG
 	assert(_window && "_window should be initialised by SetupUi().");
 #endif
-
-	Card randCard = _deck.RandCard();
-	_users[0]->AddCard(randCard);
+	_users[0]->AddCard(_deck.RandCard());
 	_window->ShowDealerCards(_users[0]->GetImgsUrl());
 }
 
@@ -108,7 +142,10 @@ int Game::CheckScore(std::vector<Card> cards) const
 {
 	int res{ 0 };
 
-	std::sort(cards.begin(), cards.end());
+	std::sort(cards.begin(), cards.end(), [](Card a, Card b)
+		{
+			return a.operator Value() < b.operator Value();
+		});
 
 	for (Card c : cards)
 	{
@@ -122,7 +159,6 @@ int Game::CheckScore(std::vector<Card> cards) const
 			res += 1;
 	}
 
-	_window->StatusBarMsg(itos(res).c_str());
 	return res;
 }
 

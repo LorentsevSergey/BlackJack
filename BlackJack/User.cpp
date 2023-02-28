@@ -1,8 +1,7 @@
 #pragma once
 #include "User.h"
 
-User::User(UsrType type) : 
-	_type(type) {}
+User::User(UsrType type) : _type(type) {}
 
 void User::AddCard(Card card)
 {

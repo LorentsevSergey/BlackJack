@@ -3,7 +3,6 @@
 #include "ui_interface.h"
 #include "Game.h"
 
-const int maxCards{ 5 };
 class Game;
 
 class main_window : 
@@ -14,8 +13,8 @@ private:
     Ui::main_windowClass _ui;
     Game* _game;
     QPixmap _clr_map; // for clear card labels
-    QLabel* _d_cards[maxCards]; // dealer card labels
-    QLabel* _p_cards[maxCards]; // player card labels
+    QLabel* _d_cards[MAX_HAND_CARDS]; // dealer card labels
+    QLabel* _p_cards[MAX_HAND_CARDS]; // player card labels
 
 public:
     main_window(Game*, QWidget* parent = nullptr);
@@ -23,6 +22,9 @@ public:
     void ShowDealerCards(std::vector<const char*>);
     void ShowPlayerCards(std::vector<const char*>);
     void ClrCardLabels();
+
+    void ShowScore(int user_id, const char* = "");
+    void ShowWinner(int = -1);
     void StatusBarMsg(const char*);
     
 private slots:

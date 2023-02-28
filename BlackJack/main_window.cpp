@@ -37,24 +37,43 @@ main_window::main_window(Game* game, QWidget *parent)
 void main_window::ShowDealerCards(std::vector<const char*> v_img_url)
 {
     //load a new image from v_img_url
-    for (int i = 0; i < v_img_url.size() && i < maxCards; ++i)
+    for (int i = 0; i < v_img_url.size() && i < MAX_HAND_CARDS; ++i)
         _d_cards[i]->setPixmap({ v_img_url[i] });
 }
 
 void main_window::ShowPlayerCards(std::vector<const char*> v_img_url)
 {
     //load a new image from v_img_url
-    for (int i = 0; i < v_img_url.size() && i < maxCards; ++i)
+    for (int i = 0; i < v_img_url.size() && i < MAX_HAND_CARDS; ++i)
         _p_cards[i]->setPixmap({ v_img_url[i] });
 }
 
 void main_window::ClrCardLabels()
 {
-    for (int i = 0; i < maxCards; ++i)
+    for (int i = 0; i < MAX_HAND_CARDS; ++i)
     {
         _p_cards[i]->setPixmap(_clr_map);
         _d_cards[i]->setPixmap(_clr_map);
     }
+}
+
+void main_window::ShowScore(int i, const char* str)
+{
+    if (!str) return;
+    (i ? _ui.player_score : _ui.dealer_score)->setText(str);
+}
+
+void main_window::ShowWinner(int who)
+{
+    if (who == -1)
+    {
+        _ui.dealer_result->setText("");
+        _ui.player_result->setText("");
+        return;
+    }
+
+    _ui.dealer_result->setText(who == 0 ? "WIN" : "LOOSE");
+    _ui.player_result->setText(who == 1 ? "WIN" : "LOOSE");
 }
 
 void main_window::StatusBarMsg(const char* msg)
@@ -66,7 +85,7 @@ void main_window::StatusBarMsg(const char* msg)
 #pragma region Buttons clicked
 void main_window::on_hit_button_clicked()
 {
-    _game->Hit();
+    _game->PlayerHit();
 }
 
 void main_window::on_stand_button_clicked()
