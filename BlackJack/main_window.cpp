@@ -33,7 +33,8 @@ main_window::main_window(Game* game, QWidget *parent)
 }
 
 
-#pragma region Visualisation
+#pragma region CARDS VISUALISATION
+
 void main_window::ShowDealerCards(std::vector<const char*> v_img_url)
 {
     //load a new image from v_img_url
@@ -56,33 +57,51 @@ void main_window::ClrCardLabels()
         _d_cards[i]->setPixmap(_clr_map);
     }
 }
+#pragma endregion
 
-void main_window::ShowScore(int i, const char* str)
+
+#pragma region TEXT VISUALISATION
+
+void main_window::ShowScore(int user_id, const char* str)
 {
     if (!str) return;
-    (i ? _ui.player_score : _ui.dealer_score)->setText(str);
+    (user_id ? _ui.player_score : _ui.dealer_score)->setText(str);
 }
 
-void main_window::ShowWinner(int who)
+void main_window::ShowDealerStatus(const char* msg)
 {
-    if (who == -1)
-    {
-        _ui.dealer_result->setText("");
-        _ui.player_result->setText("");
-        return;
-    }
-
-    _ui.dealer_result->setText(who == 0 ? "WIN" : "LOOSE");
-    _ui.player_result->setText(who == 1 ? "WIN" : "LOOSE");
+    _ui.dealer_result->setText(msg);
 }
 
-void main_window::StatusBarMsg(const char* msg)
+void main_window::ShowPlayerStatus(const char* msg)
+{
+    _ui.player_result->setText(msg);
+}
+
+void main_window::ShowBet(int bet)
+{
+    _ui.bet_value->setText(bet ? itos(bet).c_str() : "");
+}
+
+void main_window::ShowCash(int cash)
+{
+    _ui.cash_value->setText(cash ? itos(cash).c_str() : "0");
+}
+
+void main_window::ShowGameOver(bool b)
+{
+    b ? _ui.game_over_label->show() : _ui.game_over_label->hide();
+}
+
+void main_window::ShowMsg(const char* msg)
 {
     _ui.statusBar->showMessage(msg);
 }
 #pragma endregion
 
-#pragma region Buttons clicked
+
+#pragma region BUTTONS CLICKED
+
 void main_window::on_hit_button_clicked()
 {
     _game->PlayerHit();
@@ -97,24 +116,40 @@ void main_window::on_stand_button_clicked()
 void main_window::on_restart_button_clicked()
 {
     EnableTurnButtons();
-    _game->End();
     ClrCardLabels();
-    _game->Start();
+    _game->Restart();
+}
+
+void main_window::on_deck_button_clicked()
+{
+    //// change the shirt and skins of deck
+    // 
+    //_ui.deck_1->setPixmap();
+    //_ui.deck_2->setPixmap();
+    //_ui.deck_3->setPixmap();
 }
 #pragma endregion
 
-#pragma region Enable/Disable buttons
+
+#pragma region ENABLE / DISABLE BUTTONS
+
 void main_window::EnableTurnButtons()
 {
-    _ui.restart_button->setDisabled(true);
     _ui.hit_button->setEnabled(true);
-    _ui.stand_button->setEnabled(true);
+    _ui.stand_button->show();
+    _ui.restart_button->hide();
 }
 
 void main_window::DisableTurnButtons()
 {
-    _ui.stand_button->setDisabled(true);
     _ui.hit_button->setDisabled(true);
-    _ui.restart_button->setEnabled(true);
+    _ui.stand_button->hide();
+    _ui.restart_button->show();
+}
+void main_window::DisableAllButtons()
+{
+    DisableTurnButtons();
+    _ui.restart_button->setDisabled(true);
+    _ui.deck_button->setDisabled(true);
 }
 #pragma endregion

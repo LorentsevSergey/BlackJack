@@ -16,18 +16,22 @@ class Game
 
 public:
 	// playerCash should be in range [Player::minCash ... Player::maxCash]
-	Game(unsigned playerCash);
+	Game(int playerCash);
 	virtual ~Game();
 
 	virtual void SetupUi(main_window* window);
 	virtual void Start();
-	virtual void End();
+	virtual void Restart();
 
 	virtual void PlayerHit();
 	virtual void Stand();
 	virtual void DealerHit();
 
 	// Calculate the cards score
-	virtual int CheckScore(std::vector<Card>) const;
+	//virtual int CheckScore(std::vector<Card>) const;
+
+private:
+	int CalculateScore(User* user);
+	void GameResult();
 };
 

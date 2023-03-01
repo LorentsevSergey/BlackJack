@@ -24,15 +24,22 @@ public:
     void ClrCardLabels();
 
     void ShowScore(int user_id, const char* = "");
-    void ShowWinner(int = -1);
-    void StatusBarMsg(const char*);
+    void ShowDealerStatus(const char* = "");
+    void ShowPlayerStatus(const char* = "");
+
+    void ShowBet(int = 0);
+    void ShowCash(int = 0);
+
+    void ShowGameOver(bool = true);
+    void ShowMsg(const char*);
     
+    void EnableTurnButtons();
+    void DisableTurnButtons();
+    void DisableAllButtons();
+
 private slots:
     void on_hit_button_clicked();
     void on_stand_button_clicked();
     void on_restart_button_clicked();
-
-private:
-    void EnableTurnButtons();
-    void DisableTurnButtons();
+    void on_deck_button_clicked();
 };

@@ -1,28 +1,42 @@
 #pragma once
 #include "Player.h"
 
-Player::Player(unsigned cash) : 
+Player::Player(int cash) :
 	User(player)
 {
-#ifdef DEBUG
-	assert(cash >= minCash && cash <= maxCash && "Player start cash out of a range.");
-#endif
-
-	if(cash >= minCash && cash <= maxCash)
 		_cash = cash;
-	// else - print an error
 }
 
-unsigned Player::GetCash() const
+int Player::GetCash() const
 {
 	return _cash;
 }
 
-void Player::SetCash(unsigned cash)
-{
-#ifdef DEBUG
-	assert(cash > 0 && cash < 10001 && "Player set cash out of a range.");
-#endif
+//void Player::SetCash(int cash)
+//{
+//#ifdef DEBUG
+//	assert(cash > MIN_PLAYER_CASH && cash < MAX_PLAYER_CASH && "Player set cash out of a range.");
+//#endif
+//	_cash = cash;
+//}
 
-	_cash = cash;
+int Player::Bet(int bet)
+{
+	if(bet && bet <= _cash && !_bet)
+	{
+		_bet = bet;
+		_cash -= bet;
+	}
+	return _bet;
+}
+
+void Player::Win()
+{
+	_cash += _bet * 2;
+	_bet = 0;
+}
+
+void Player::Loose()
+{
+	_bet = 0;
 }

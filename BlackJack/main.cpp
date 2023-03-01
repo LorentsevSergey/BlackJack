@@ -4,10 +4,9 @@
 
 int main(int argc, char *argv[])
 {
-    const int plCash = 500;
     srand(time(NULL));
     QApplication a(argc, argv);
-    Game g(plCash);
+    Game g(PLAYER_START_CASH);
     main_window w(&g);
     w.show();
     return a.exec();

@@ -27,3 +27,18 @@ void User::DelCards()
 	_my_cards.swap(empty);
 }
 
+
+int User::GetScore() const
+{
+	return _score;
+}
+
+void User::CalcScore(std::function<void(int&, std::vector<Card>)> foo) 
+{
+	foo(_score, _my_cards);
+}
+
+void User::SetScore(int score)
+{
+	_score = score;
+}

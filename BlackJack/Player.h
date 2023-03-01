@@ -4,13 +4,17 @@
 class Player :
     public User
 {
-    static const unsigned minCash = 100;
-    static const unsigned maxCash = 10000;
-    unsigned _cash = 0;
+    int _cash{ 0 };
+    int _bet{ 0 };
 
 public:
-    Player(unsigned);
-    unsigned GetCash() const;
-    void SetCash(unsigned);
+    Player(int);
+
+    int GetCash() const;
+    //void SetCash(int);
+
+    int Bet(int = 0);
+    void Win();
+    void Loose();
 };
 
