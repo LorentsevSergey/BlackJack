@@ -1,70 +1,83 @@
 #pragma once
 #include "Card.h"
 
-Card::Card(std::string front_img_url,
-	std::shared_ptr<std::string> p_back_img_url,
-	const Suit suit,
-	Value value)
+Card::Card(int f_img_id, Suit suit, Value value)
 	:
-	_front_img_url(front_img_url),
-	_p_back_img_url(p_back_img_url),
-	_suit(suit),
-	_value(value)
+	face_img_id(f_img_id),
+	suit(suit),
+	value(value)
 {}
 
 
 Card::operator Suit() const
 {
-	return _suit;
+#ifdef DEBUG
+	assert(face_img_id && "Empty card.");
+#endif
+	return suit;
 }
 
 Card::operator Value() const
 {
-	return _value;
+#ifdef DEBUG
+	assert(face_img_id && "Empty card.");
+#endif
+	return value;
 }
 
-const char* Card::ImgUrl() const
+//Card::operator int() const
+//{
+//#ifdef DEBUG
+//	assert(face_img_id && "Empty card.");
+//#endif
+//	return is_face ? face_img_id : CARD_ID_BACK;
+//}
+
+int Card::ImgID() const
 {
 #ifdef DEBUG
-	assert(_front_img_url.size() && "Empty adress of card image.");
+	assert(face_img_id && "Empty card.");
 #endif
 
-	return (_is_front_side ? _front_img_url : *_p_back_img_url).c_str();
+	return is_face ? face_img_id : CARD_ID_BACK;
 }
 
-void Card::TurnOver()
+void Card::TurnOver(bool side)
 {
-	_is_front_side = !_is_front_side;
+	is_face = side;
 }
 
 
-#pragma region Operators > < == =
+#pragma region OPERATORS
 bool Card::operator>(const Card& other) const
 {
-	return _value > other._value;
+	return value > other.value;
 }
 
-bool Card::operator<(const Card& other) const
-{
-	return _value < other._value;
-}
+//bool Card::operator<(const Card& other) const
+//{
+//	return value < other.value;
+//}
 
 bool Card::operator==(const Card& other) const
 {
-	return _front_img_url == other._front_img_url
-		&& _p_back_img_url == other._p_back_img_url
-		&& _suit == other._suit
-		&& _value == other._value
-		&& _is_front_side == other._is_front_side;
+	return face_img_id == other.face_img_id
+		&& suit == other.suit
+		&& value == other.value
+		&& is_face == other.is_face;
 }
 
 Card& Card::operator=(const Card& copy)
 {
-	_front_img_url = copy._front_img_url;
-	_p_back_img_url = copy._p_back_img_url;
-	_suit = copy._suit;
-	_value = copy._value;
-	_is_front_side = copy._is_front_side;
+	face_img_id = copy.face_img_id;
+	suit = copy.suit;
+	value = copy.value;
+	is_face = copy.is_face;
 	return *this;
 }
 #pragma endregion
+
+bool operator==(const Card& card, Value val)
+{
+	return  card.value == val;
+}

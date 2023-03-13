@@ -1,181 +1,186 @@
 #pragma once
 #include "Game.h"
 
-#pragma region Game/~Game/Setup
+#pragma region CONSTRUCT and SETUP
 
 Game::Game(int playerCash) :
-	_deck("gangsta_cards"),
-	_users{
-		new Dealer(),// create a dealer
-		new Player(playerCash)// create a player
-	}
+	player(playerCash)
 {}
 
-Game::~Game()
-{
-	for(User* u : _users) delete u;
-}
-
-void Game::SetupUi(main_window* window)
+void Game::SetupUi(GameUI* game_ui)
 {
 #ifdef DEBUG
-	assert(window != 0 && _window != window && "Pointer to the window in the Game class == 0 or == itself.");
+	assert(game_ui != nullptr);
 #endif
-	
-	_window = window;
+	ui = game_ui;
+
+	// hide "game over" label
+	ui->ShowGameOver(false);
 	Start();
 }
-
 #pragma endregion
 
 
-#pragma region Start/End
+#pragma region START / RESTART
 
-// Start the game
 void Game::Start()
 {
 #ifdef DEBUG
-	assert(_continue == false && _window && "Game should be stopped, _window should be initialised by SetupUi().");
+	assert(ui && "ui should be initialised by SetupUi().");
 #endif
-	_continue = true;
-
-	// hide "game over" label
-	_window->ShowGameOver(false);
-
-	// 2 cards for each
-	{
-		// dealer 2 cards
-		_users[0]->AddCard(_deck.RandCard());
-		Card d_shirt_card(_deck.RandCard());
-		// turn over the dealer second card for showing shirt first time
-		d_shirt_card.TurnOver();
-		_users[0]->AddCard(d_shirt_card);
-
-		// player 2 cards
-		_users[1]->AddCard(_deck.RandCard());
-		_users[1]->AddCard(_deck.RandCard());
-
-		// show cards in UI
-		_window->ShowDealerCards(_users[0]->GetImgsUrl());
-		_window->ShowPlayerCards(_users[1]->GetImgsUrl());
-
-		// turn over the dealer second card for showing face next time
-		static_cast<Dealer*>(_users[0])->TurnOverShirtCard();
-	}
-
-	// scores and statuses
-	{
-		// get player score
-		int PlayerScore = CalculateScore(_users[1]);
-
-		// show player score
-		_window->ShowScore(1, itos(PlayerScore).c_str());
-
-		// clear dealer score
-		_window->ShowScore(0);
-
-		// clear statuses
-		_window->ShowDealerStatus("");
-		_window->ShowPlayerStatus("");
-	}
 
 	// cash and bet
-	{
-		_window->ShowBet(static_cast<Player*>(_users[1])->Bet(BET));
-		_window->ShowCash(static_cast<Player*>(_users[1])->GetCash());
-	}
+	player.SetBet(BET);
+	ui->ShowBet(player.GetBet());
+	ui->ShowCash(player.GetCash());
 
+	// 2 cards for each
+	Card d_card_0 = deck.RandCard();
+	Card d_card_1 = deck.RandCard();
+	Card p_card_0 = deck.RandCard();
+	Card p_card_1 = deck.RandCard();
+		
+	// turn over the dealer second card for showing shirt first time
+	d_card_1.TurnOver(false);
+
+	dealer.AddCard(d_card_0);
+	dealer.AddCard(d_card_1);
+	player.AddCard(p_card_0);
+	player.AddCard(p_card_1);
+
+	// scores and statuses
+	int p_score = CalculateScore(&player);
+	ui->ShowScore(UsrType::player, p_score);
+	ui->ShowScore(UsrType::dealer);
+	ui->ShowStatus(UsrType::dealer);
+	ui->ShowStatus(UsrType::player);
+
+	ui->HideCards();
+
+	// vector for sending cards in UI
+	std::vector<Triple<UsrType, int, int>> cards{
+		{ UsrType::player, 0, p_card_0.ImgID() },
+		{ UsrType::dealer, 0, d_card_0.ImgID() },
+		{ UsrType::player, 1, p_card_1.ImgID() },
+		{ UsrType::dealer, 1, d_card_1.ImgID() }
+	};
+
+	// player have blackjack
+	if ((p_card_0 == Value::ace && p_card_1 == Value::jack) ||
+		(p_card_0 == Value::jack && p_card_1 == Value::ace))
+	{	// show cards and restart button
+		PlayerWin();
+		ui->ShowCards(cards, hideTurnButtons);
+	}
+	else // player have 21, show cards and disable Hit button
+		if (p_score == MAX_SCORE)
+			ui->ShowCards(cards, disableHitButton);
+		else// show cards and buttons to play
+			ui->ShowCards(cards, showTurnButtons);
 }
 
 void Game::Restart()
 {
-#ifdef DEBUG
-	assert(_continue == true && _window && "Game should be runned, _window should be initialised by SetupUi().");
-#endif
-	_continue = false;
-
 	// put cards back to the deck
-	for (User* u : _users)
-	{
-		std::vector<Card> userCards(u->GetCards());
-		for(Card c : userCards)	_deck.AddCard(c);
-		u->DelCards();
-	}
+	for (Card c : player.GetCards()) deck.AddCard(c);
+	for (Card c : dealer.GetCards()) deck.AddCard(c);
+
+	player.DelCards();
+	dealer.DelCards();
 
 	Start();
 }
-
 #pragma endregion
 
 
-#pragma region Game logic
+#pragma region MOVES
 
-// Player moove
 void Game::PlayerHit()
 {
-#ifdef DEBUG
-	assert(_window && "_window should be initialised by SetupUi().");
-#endif
-	// player score
-	int score = CalculateScore(_users[1]);
+	if (player.GetCardsCount() == MAX_HAND_CARDS) return;
+	ui->DisableAllButtons();
 
 	// take 1 card
-	if (_users[1]->GetCards().size() < MAX_HAND_CARDS &&
-		score < MAX_SCORE)
+	Card card = deck.RandCard();
+	player.AddCard(card);
+	// prepare the card for showing
+	std::vector<Triple<UsrType, int, int>> v = { { UsrType::player, player.GetCardsCount()-1, card.ImgID() } };
+
+	// player score
+	int score = CalculateScore(&player);
+	ui->ShowScore(UsrType::player, score);
+
+	if (score > MAX_SCORE)
 	{
-		_users[1]->AddCard(_deck.RandCard());
-		_window->ShowPlayerCards(_users[1]->GetImgsUrl());
-		score = CalculateScore(_users[1]);
+		PlayerLoose();
+		ui->ShowCards(v, hideTurnButtons);
 	}
-
-	// show player score
-	_window->ShowScore(1, itos(score).c_str());
-
-	// when payer have 21 score or more - dealer moove, than chek who win
-	if (score >= MAX_SCORE) Stand();
+	else if (player.GetCardsCount() == MAX_HAND_CARDS ||
+			score == MAX_SCORE)
+			ui->ShowCards(v, disableHitButton);
+		else 
+			ui->ShowCards(v, showTurnButtons);
 }
 
-// Dealer moove when player stand
-void Game::Stand()
+void Game::DealerMove()
 {
-	_window->DisableTurnButtons();
+	ui->DisableAllButtons();
 
-	// show all dealer cards in UI (with open second card)
-	_window->ShowDealerCards(_users[0]->GetImgsUrl());
+	// turn over and show the dealer second card
+	dealer.TurnOverShirtCard(true);
+	ui->ShowDealerSecondCard( dealer.GetSecondCardID());
 
-	// calculate dealer score
-	int score = CalculateScore(_users[0]);
+	// calculate and show dealer score
+	int score = CalculateScore(&dealer);
+	ui->ShowScore(UsrType::dealer, score);
 
-	// show dealer score
-	_window->ShowScore(0, itos(score).c_str());
-
-	// dealer move
-	while (_users[0]->GetCards().size() < MAX_HAND_CARDS
+	// vector for sending cards in UI
+	std::vector<Triple<UsrType, int, int>> cards;
+	
+	while (dealer.GetCardsCount() < MAX_HAND_CARDS
 		&& score < MIN_DEALER_SCORE)
 	{
-		DealerHit();
+		Card card = deck.RandCard();
+		dealer.AddCard(card);
 
-		// calculate new score after DealerHit()
-		score = CalculateScore(_users[0]);
+		// calculate and show score
+		score = CalculateScore(&dealer);
+		ui->ShowScore(UsrType::dealer, score);
 
-		// show dealer score
-		_window->ShowScore(0, itos(score).c_str());
+		// collect the cards for showing
+		Triple<UsrType, int, int> t = { UsrType::dealer, dealer.GetCardsCount() - 1, card.ImgID() };
+		cards.push_back( t );
 	}
-	// who win?
+
+	ui->ShowCards(cards, hideTurnButtons);
+	//if(cards.size()) ui->ShowMsg((  "Size: " + itos(cards.size()) +  "; IMG: " + itos(cards[0].third)  ).c_str());
 	GameResult();
 }
+#pragma endregion
 
-// Dealer take 1 card
-void Game::DealerHit()
+
+#pragma region CARDS
+
+std::vector<int> Game::GetCards(UsrType user)
 {
-#ifdef DEBUG
-	assert(_window && "_window should be initialised by SetupUi().");
+#if USER_COUNT == 2
+	std::vector<Card> cards = (user == dealer ?
+		dealer.GetCards()
+		:
+		player.GetCards());
 #endif
-	_users[0]->AddCard(_deck.RandCard());
-	_window->ShowDealerCards(_users[0]->GetImgsUrl());
-}
+	std::vector<int> url_id;
 
-// Game score rules
+	for (size_t i = 0; i < cards.size(); i++)
+		url_id.push_back(cards[i].ImgID());
+
+	return url_id;
+}
+#pragma endregion
+
+
+#pragma region RESULTS
+
 int Game::CalculateScore(User* user)
 {
 	user->CalcScore([](int& score, std::vector<Card> cards)
@@ -203,52 +208,43 @@ int Game::CalculateScore(User* user)
 	return user->GetScore();
 }
 
-// Who win?
 void Game::GameResult()
 {
-	// Users
-	Dealer* dealer = static_cast<Dealer*>(_users[0]);
-	Player* player = static_cast<Player*>(_users[1]);
-
-	// Scores and cards
-	int d_score = dealer->GetScore();
-	int p_score = player->GetScore();
-	std::vector<Card> p_cards = player->GetCards();
+	int d_score = dealer.GetScore();
 
 	//	Player win in case:
-	//		1. Player score <= 21 and dealer score > 21
-	//		2. Player score <= 21 and dealer score < player score
-	//		3. Player have blackjack
-	if (( p_score <= MAX_SCORE && d_score > MAX_SCORE ) 
-		||
-		( p_score <= MAX_SCORE && d_score < p_score )
-		||
-		(p_score == MAX_SCORE && p_cards.size() == 2 &&
-		(p_cards[0] == Value::ace || p_cards[1] == Value::ace)) )
+	//  1. Player score <= 21 (checked on hit) and dealer score > 21
+	//	2. Player score <= 21 (checked on hit) and dealer score < player score
+	if (d_score > MAX_SCORE || d_score < player.GetScore())
+		PlayerWin();
+	else
 	{
-		_window->ShowDealerStatus("BUST");
-		_window->ShowPlayerStatus("WIN");
-		player->Win();
-	}
-	else // Player loose
-	{
-		_window->ShowDealerStatus("WIN");
-		_window->ShowPlayerStatus("BUST");
-		player->Loose();
+		PlayerLoose();
 		
 		// GAME OVER
-		if (player->GetCash() <= 0)
+		if (player.GetCash() <= 0)
 		{
-			_window->ShowGameOver();
-			_window->DisableAllButtons();
+			ui->ShowGameOver();
+			ui->DisableAllButtons();
 		}
 	}
 
 	// show cash and bet
-	{
-		_window->ShowBet(player->Bet());
-		_window->ShowCash(player->GetCash());
-	}
+	ui->ShowBet(player.GetBet());
+	ui->ShowCash(player.GetCash());
 }
 
+void Game::PlayerWin()
+{
+	player.Win();
+	ui->ShowStatus(UsrType::player, win);
+	ui->ShowStatus(UsrType::dealer, loose);
+}
+
+void Game::PlayerLoose()
+{
+	player.Loose();
+	ui->ShowStatus(UsrType::player, loose);
+	ui->ShowStatus(UsrType::dealer, win);
+}
 #pragma endregion

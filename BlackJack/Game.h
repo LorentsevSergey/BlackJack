@@ -1,37 +1,63 @@
+// Start the game:
+// If the player have a blackjack - his win
+// 
+// Players move:
+// Player get a card. 
+// If he have score more than 21 - he loose.
+// If he have 21 score or 5 cards - dealers move.
+// Else player keep moving.
+// 
+// Dealers move:
+// Dealer take the cards until he`l have 17 score or 5 cards.
+// After that check the game result.
+// 
+// Game result:
+// If dealer score less than player score - player win.
+// If dealer score more than 21 - player win.
+// In other case - player loose.
+
 #pragma once
 #include "Global.h"
 #include "Deck.h"
 #include "Dealer.h"
 #include "Player.h"
-#include "main_window.h"
-
-class main_window;
+#include "GameUI.h"
+class GameUI;
 
 class Game
 {
-	main_window* _window = nullptr;
-	bool _continue = false;
-	std::vector<User*> _users;
-	Deck _deck;
-
+	GameUI* ui = nullptr;
+	Player player;
+	Dealer dealer;
+	Deck deck;
 public:
-	// playerCash should be in range [Player::minCash ... Player::maxCash]
 	Game(int playerCash);
-	virtual ~Game();
+	virtual void SetupUi(GameUI* ui);
 
-	virtual void SetupUi(main_window* window);
+
+// START / RESTART
+
 	virtual void Start();
 	virtual void Restart();
 
+
+// MOVES
+
 	virtual void PlayerHit();
-	virtual void Stand();
-	virtual void DealerHit();
+	virtual void DealerMove();
 
-	// Calculate the cards score
-	//virtual int CheckScore(std::vector<Card>) const;
 
+// CARDS
+
+	std::vector<int> GetCards(UsrType);
+
+
+// RESULTS
 private:
-	int CalculateScore(User* user);
+	int CalculateScore(User*);
 	void GameResult();
+
+	void PlayerWin();
+	void PlayerLoose();
 };
 

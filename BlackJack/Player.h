@@ -13,7 +13,8 @@ public:
     int GetCash() const;
     //void SetCash(int);
 
-    int Bet(int = 0);
+    int GetBet();
+    int SetBet(int);
     void Win();
     void Loose();
 };

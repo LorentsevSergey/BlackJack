@@ -6,7 +6,8 @@ class Dealer :
 {
 public:
     Dealer() : User(dealer) {};
-
-    void TurnOverShirtCard();
+    // 0 - shirt; 1 - face
+    void TurnOverShirtCard(bool side);
+    int GetSecondCardID();
 };
 

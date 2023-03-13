@@ -3,32 +3,34 @@
 
 class Card
 {
-	std::string _front_img_url;
-	std::shared_ptr<std::string> _p_back_img_url;
-	Suit _suit;
-	Value _value;
-	bool _is_front_side{ true };
+	int face_img_id;
+	Suit suit;
+	Value value;
+	bool is_face{ true };
 
 public:
-	// string: url to the front image in recource file
-	// shared_ptr<string>: pointer to the back image url (one image for all cards in the deck)
-	// Suit: spade = 0, heart = 1, diamond = 2, club = 3, noSuit = 4
+	// id of img url in Img object
+	// Suit: spade, heart, diamond, club, noSuit
 	// Value: 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace, joker, noValue
-	Card(std::string,
-		std::shared_ptr<std::string> = nullptr,
-		const Suit = noSuit,
-		Value = noValue);
+	Card(int = 0, Suit = noSuit, Value = noValue);
 
+	//explicit operator int() const;
 	operator Suit() const;
 	operator Value() const;
 
-	const char* ImgUrl() const;
-	void TurnOver();
+	int ImgID() const;
+
+	// false - shirt
+	// true - face
+	void TurnOver(bool side);
 
 	bool operator>(const Card& other) const;
-	bool operator<(const Card& other) const;
+	//bool operator<(const Card& other) const;
 
 	bool operator==(const Card& other) const;
 	Card& operator=(const Card& copy);
+
+private:
+	friend bool operator==(const Card& card, Value val);
 };
 

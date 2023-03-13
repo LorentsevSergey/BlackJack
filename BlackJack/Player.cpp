@@ -20,7 +20,12 @@ int Player::GetCash() const
 //	_cash = cash;
 //}
 
-int Player::Bet(int bet)
+int Player::GetBet()
+{
+	return _bet;
+}
+
+int Player::SetBet(int bet)
 {
 	if(bet && bet <= _cash && !_bet)
 	{

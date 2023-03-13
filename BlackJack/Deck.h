@@ -3,12 +3,12 @@
 
 class Deck
 {
-	std::vector<Card> _cards;
+	std::vector<Card> cards;
 public:
-	Deck() = delete;
-	Deck(const std::string);
+	Deck();
+
 	const Card RandCard();
-	void AddCard(const Card&);
+	void AddCard(Card&);
 };
 
 

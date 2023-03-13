@@ -3,6 +3,11 @@
 
 User::User(UsrType type) : _type(type) {}
 
+int User::GetCardsCount() const
+{
+	return _my_cards.size();
+}
+
 void User::AddCard(Card card)
 {
 	_my_cards.push_back(card);
@@ -13,13 +18,13 @@ std::vector<Card> User::GetCards() const
 	return _my_cards;
 }
 
-std::vector<const char*> User::GetImgsUrl() const
-{
-	std::vector<const char*> imgs_url;
-	for (size_t i = 0; i < _my_cards.size(); ++i)
-		imgs_url.push_back(_my_cards[i].ImgUrl());		
-	return imgs_url;
-}
+//std::vector<int> User::GetImgsID() const
+//{
+//	std::vector<int> imgs_url;
+//	for (size_t i = 0; i < _my_cards.size(); ++i)
+//		imgs_url.push_back(_my_cards[i].ImgID());		
+//	return imgs_url;
+//}
 
 void User::DelCards()
 {
@@ -42,3 +47,10 @@ void User::SetScore(int score)
 {
 	_score = score;
 }
+
+
+User::operator UsrType() const
+{
+	return _type;
+}
+
