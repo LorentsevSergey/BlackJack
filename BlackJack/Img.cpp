@@ -5,6 +5,7 @@ Img::Img() :
     d_id(0)
 {
     AddDeckImgs("gangsta_cards");
+    AddDeckImgs("classic");
 }
 
 void Img::NextDeck()

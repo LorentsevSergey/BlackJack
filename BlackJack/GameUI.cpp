@@ -8,6 +8,8 @@ GameUI::GameUI(Game* game, main_window* window) :
 {
 	g->SetupUi(this);
 	ui->SetupGame(this);
+
+	ui->SetDeckShirt(GetCardImgUrl(CARD_ID_BACK));
 }
 
 
@@ -130,5 +132,7 @@ void GameUI::Deck()
 	v = g->GetCards(UsrType::player);
 	for (size_t i = 0; i < v.size(); ++i)
 		ui->ShowCard(UsrType::player, i, GetCardImgUrl(v[i]));
+
+	ui->SetDeckShirt(GetCardImgUrl(CARD_ID_BACK));
 }
 #pragma endregion

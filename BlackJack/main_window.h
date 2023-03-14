@@ -34,6 +34,8 @@ public:
     // 3. img url
     virtual void ShowCardsAnimated(std::vector< Triple<UsrType, int, std::string> > usrTy_cardLabelID_imgURL, ButtonStatusAfterAnimation);
     virtual void HideCardLabels();
+    virtual void SetDeckShirt(std::string url);
+
 private:
     // 1. find the pair by UsrType and ID
     // 2. set pixmap to the pair label

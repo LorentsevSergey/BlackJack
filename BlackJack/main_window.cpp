@@ -138,6 +138,13 @@ void main_window::HideCardLabels()
     }
 }
 
+void main_window::SetDeckShirt(std::string url)
+{
+    _ui.deck_0->setPixmap({ url.c_str() });
+    _ui.deck_1->setPixmap({ url.c_str() });
+    _ui.deck_2->setPixmap({ url.c_str() });
+}
+
 std::pair<QLabel*, QPoint>& main_window::LabelAndPos(UsrType usr_type, int label_id, std::string img_url)
 {
     // check user type (dealer or player) and initialyse the pair lable
