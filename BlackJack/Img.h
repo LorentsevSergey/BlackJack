@@ -11,7 +11,6 @@ public:
 protected:
 	virtual void NextDeck();
 	std::string GetCardImgUrl(int card_id);
-	//const char* GetCardBackImg();
 
 	virtual void AddDeckImgs(std::string path_name);
 	virtual void AddDeckImgs(std::vector<std::string> deck_urls);

@@ -90,18 +90,23 @@ void main_window::ShowCardsAnimated(std::vector< Triple<UsrType, int, std::strin
     DisableAllButtons();
 
     QSequentialAnimationGroup* group = new QSequentialAnimationGroup;
+    QParallelAnimationGroup* parGroup = nullptr;
     std::pair<QLabel*, QPoint> label_and_pos;
-    QPropertyAnimation* animated_card;
+    CardAnimation* animated_card;
 
-    //ShowMsg(v[0].third);
     for (int i = 0; i < v.size(); ++i)
     {
         // check user type and initialyse the pair lable + pos
         label_and_pos = LabelAndPos(v[i].first, v[i].second, v[i].third);
 
+        parGroup = new QParallelAnimationGroup;
+        
         // made an animation
         animated_card = AnimateCard(label_and_pos);
-        group->addAnimation(animated_card);
+        parGroup->addAnimation(CardSound_Animation());
+        parGroup->addAnimation(animated_card);
+
+        group->addAnimation(parGroup);
     }
 
     // chose what should we do with buttons after the animation
@@ -148,8 +153,7 @@ void main_window::SetDeckShirt(std::string url)
 std::pair<QLabel*, QPoint>& main_window::LabelAndPos(UsrType usr_type, int label_id, std::string img_url)
 {
     // check user type (dealer or player) and initialyse the pair lable
-    std::pair<QLabel*, QPoint>& p = usr_type
-        ?
+    std::pair<QLabel*, QPoint>& p = usr_type ?
         _player_card_label[label_id]
         :
         _dealer_card_label[label_id];
@@ -158,13 +162,26 @@ std::pair<QLabel*, QPoint>& main_window::LabelAndPos(UsrType usr_type, int label
     return p;
 }
 
-QPropertyAnimation* main_window::AnimateCard(std::pair<QLabel*, QPoint>& p)
+CardAnimation* main_window::AnimateCard(std::pair<QLabel*, QPoint>& p)
 {
-    QPropertyAnimation* animation = new QPropertyAnimation(p.first, "pos");
-    animation->setDuration(MSEC_CARD_ANIMATION_PAUSE);
+    CardAnimation* animation = new CardAnimation(p.first, "pos");
+    
+    animation->setDuration(MSEC_CARD_ANIMATION_DURATION);
     animation->setStartValue(_ui.deck_2->pos());
     animation->setEndValue(p.second);
+
     return animation;
+}
+
+QPropertyAnimation* main_window::CardSound_Animation()
+{
+    QPropertyAnimation* emptyAnim = new QPropertyAnimation(new QLabel, "pos");
+
+    connect(emptyAnim, &QPropertyAnimation::finished, [=]() {
+            _game->PlaySnd(Snd::Track_type::GetCard);
+        });
+    //connect(emptyAnim, SIGNAL(finished()), _game, SLOT(Play_Sound(Snd::Track_type::GetCard)));
+    return emptyAnim;
 }
 #pragma endregion
 
@@ -178,16 +195,6 @@ void main_window::ShowScore(UsrType user, const char* score)
         : 
         _ui.dealer_score->setText(score ? score : "");
 }
-
-//void main_window::ShowDealerStatus(const char* msg)
-//{
-//    _ui.dealer_result->setText(msg);
-//}
-//
-//void main_window::ShowPlayerStatus(const char* msg)
-//{
-//    _ui.player_result->setText(msg);
-//}
 
 void main_window::ShowStatus(UsrType user, WinStatus status)
 {
@@ -203,6 +210,8 @@ void main_window::ShowStatus(UsrType user, WinStatus status)
 
     case win: 
         status_label->setText("WIN"); 
+        if(status_label == _ui.player_status)
+            _game->PlaySnd(Snd::Track_type::WinBet);
         break;
 
     default:status_label->setText(""); break;
@@ -215,6 +224,7 @@ void main_window::ShowBet(const char* bet)
     {
         _ui.bet_value->setText(bet);
         _ui.chip_1->show();
+        if(_game) _game->PlaySnd(Snd::Track_type::SetBet);
     }
     else
     {
@@ -310,10 +320,8 @@ void main_window::on_deck_button_clicked()
     _game->Deck();
 }
 
-//void main_window::on_push_button_clicked()
-//{
-//    std::pair<QLabel*, QPoint> p { _ui.bet_label, _ui.bet_label->pos() };
-//    QPropertyAnimation* animation = AnimateCard(p);
-//    animation->start();
-//}
+void main_window::on_push_button_clicked()
+{
+    _game->NextBackgroundSnd();
+}
 #pragma endregion

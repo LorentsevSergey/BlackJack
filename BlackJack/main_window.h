@@ -5,6 +5,7 @@
 #include "ui_interface.h"
 #include "GameUI.h"
 #include "Global.h"
+#include "CardAnimation.h"
 class GameUI;
 
 class main_window : 
@@ -13,7 +14,7 @@ class main_window :
     Q_OBJECT
 private:
     Ui::main_windowClass _ui;
-    GameUI* _game;
+    GameUI* _game = nullptr;
     QPixmap _clr_map; // to clear card labels
     QPoint _start_pos;
     std::pair<QLabel*, QPoint> _dealer_card_label [MAX_HAND_CARDS]; // dealer card labels and their pos
@@ -46,8 +47,8 @@ private:
     // 3. return the animation pointer
     // NOTE: animation without start() func - to start it in the group of animation
     // If you need to launch it - use the returned pointer and start() func
-    QPropertyAnimation* AnimateCard(std::pair<QLabel*, QPoint>& label_and_pos);
-
+    CardAnimation* AnimateCard(std::pair<QLabel*, QPoint>& label_and_pos);
+    QPropertyAnimation* CardSound_Animation();
 // VISUALISATION
 public:
     virtual void ShowScore(UsrType user, const char* = nullptr);
@@ -89,6 +90,5 @@ private slots:
     void on_stand_button_clicked();
     void on_restart_button_clicked();
     void on_deck_button_clicked();
-//public slots:
-//    void on_push_button_clicked();
+    void on_push_button_clicked();
 };

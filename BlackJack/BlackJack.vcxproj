@@ -31,9 +31,9 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.4.0_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;multimedia;multimediawidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
+    <QtInstall>6.5.0_msvc2019_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.4.0_msvc2019_64</QtInstall>
@@ -58,6 +58,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(QtInstallDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(Qt_INCLUDEPATH_);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -83,9 +91,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CardAnimation.cpp" />
     <ClCompile Include="Dealer.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Img.cpp" />
+    <ClCompile Include="mPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="Snd.cpp" />
@@ -101,11 +111,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h" />
+    <QtMoc Include="CardAnimation.h" />
     <ClInclude Include="Dealer.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Img.h" />
+    <ClInclude Include="mPlayer.h" />
     <ClInclude Include="Player.h" />
     <QtMoc Include="GameUI.h" />
     <ClInclude Include="Snd.h" />

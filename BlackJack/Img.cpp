@@ -20,11 +20,6 @@ std::string Img::GetCardImgUrl(int c_id)
     return d_url.at(d_id).at(c_id);        
 }
 
-//const char* Img::GetCardBackImg()
-//{
-//    return d_url.at(d_id).at(CARD_ID_BACK);
-//}
-
 void Img::AddDeckImgs(std::string path_name)
 {
     std::vector<std::string> v;

@@ -80,5 +80,9 @@ public:
 	virtual void Restart();
 	virtual void Deck();
 
+
+// SOUNDS
+public slots:
+	void Play_Sound(Snd::Track_type);
 };
 

@@ -70,6 +70,12 @@
     <ClCompile Include="Snd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CardAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Deck.h">
@@ -99,9 +105,15 @@
     <ClInclude Include="Snd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GameUI.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CardAnimation.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

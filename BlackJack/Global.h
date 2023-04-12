@@ -34,9 +34,13 @@
 #define PLAYER_START_CASH 500
 #define BET 5
 
-// pause
+// timings
 //#define MILLISECONDS_PAUSE 10
-#define MSEC_CARD_ANIMATION_PAUSE 250
+#define MSEC_CARD_ANIMATION_DURATION 410
+
+// sound
+#define SOUND_VOLUME 70
+#define BACKGROUND_SOUND_VOLUME 50
 
 
 enum Suit

@@ -10,6 +10,8 @@ GameUI::GameUI(Game* game, main_window* window) :
 	ui->SetupGame(this);
 
 	ui->SetDeckShirt(GetCardImgUrl(CARD_ID_BACK));
+
+	PlaySnd(Snd::Track_type::BackgroundMusic);
 }
 
 
@@ -134,5 +136,14 @@ void GameUI::Deck()
 		ui->ShowCard(UsrType::player, i, GetCardImgUrl(v[i]));
 
 	ui->SetDeckShirt(GetCardImgUrl(CARD_ID_BACK));
+}
+#pragma endregion
+
+
+#pragma region SOUNDS
+
+void GameUI::Play_Sound(Snd::Track_type TrType)
+{
+	PlaySnd(TrType);
 }
 #pragma endregion
